@@ -18,7 +18,7 @@ public class SqsSenderImpl implements SqsSender {
 	private String activationQueue;
 
 	@Override
-	public void sendMessage(String payload) {
+	public void sendMessage(Object payload) {
 		logger.info("Sending '{}' to Queue '{}'", payload, activationQueue);
 		sqsTemplate.convertAndSend(activationQueue, payload);
 		logger.info("Message sent to SQS activation-queue.");		

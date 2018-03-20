@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ctsdev.sqsdemo.service.SqsReceiver;
 import com.ctsdev.sqsdemo.service.SqsSender;
 
 @RestController
@@ -17,11 +18,21 @@ public class SqsController {
 	@Autowired
 	private SqsSender sqsSender;	
 	
-	@GetMapping("/hello")
+	@Autowired
+	private SqsReceiver sqsReceiver;
+	
+	@GetMapping("/sendhello")
 	public String sayHello() {
 		logger.info("Send Hello World! message.");
 		sqsSender.sendMessage("Hello World!");
 		return "MESSAGE_SENT";		
+	}
+	
+	@GetMapping("/gethello")
+	public String getHello() {
+		logger.info("Get message from queue.");
+		String resp = (String) sqsReceiver.receiveMessage();
+		return resp;	
 	}
 	
 }
